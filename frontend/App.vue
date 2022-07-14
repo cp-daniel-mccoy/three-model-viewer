@@ -10,6 +10,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { VRMLoader } from 'three/examples/jsm/loaders/VRMLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { AnimationMixer } from 'three';
 
 // There is code for two viewers included in this program (GLB/VRM)
 // Only one can be enabled at a time - Used notes to disable unused code for now.
@@ -75,7 +76,7 @@ let camera, scene, renderer;
 init();
 render();
 
-function init() {       
+function init() {      
 	const container = document.createElement( 'div' );
   	container.setAttribute("class", "content");
 	document.body.appendChild( container );
@@ -95,6 +96,17 @@ function init() {
               
       }
     });
+
+	// Attempting to establish animations
+
+	const modelMixer = new AnimationMixer(gltf.scene);
+	const animations = [];
+	const idleAnimation = animations[0];
+	const timer = setInterval(() => {
+		modelMixer.update(1/30);
+	}, 1000/30);
+
+	// End of animation code
   	scene.add( gltf.scene );
   	console.log("GLTF NFT loaded successfully!");
   	render();
